@@ -1,11 +1,11 @@
 description: >
-  Validate formatting of Rust project.
+  Run a cargo package.
 
 parameters:
-  nightly-toolchain:
-    description: Whether or not to use the nightly toolchain version.
-    type: boolean
-    default: false
+  package:
+    description: Package to run.
+    default: ""
+    type: string
   use_cache:
     description: Whether to restore and save the cache or not - set to no if running multiple commands in one job.
     type: boolean
@@ -25,11 +25,7 @@ steps:
               - cargo-{{ checksum "Cargo.lock" }}
               - cargo-
   - run:
-      name: Install fmt
-      command: rustup component add rustfmt <<#parameters.nightly-toolchain>>--toolchain nightly<</parameters.nightly-toolchain>>
-  - run:
-      name: Run fmt
-      command: cargo <<#parameters.nightly-toolchain>>+nightly<</parameters.nightly-toolchain>> fmt
+      command: cargo run <<parameters.package>>
   - when:
       condition: <<parameters.use_cache>>
       steps:

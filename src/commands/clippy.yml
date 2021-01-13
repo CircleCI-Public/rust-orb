@@ -6,11 +6,34 @@ parameters:
     description: Additional flags to pass along to Clippy.
     default: "--all --all-targets"
     type: string
+  use_cache:
+    description: Whether to restore and save the cache or not - set to no if running multiple commands in one job.
+    type: boolean
+    default: true
+  cache_version:
+    description: Cache version to use - increment this to build a fresh cache.
+    type: string
+    default: "v1"
 
 steps:
+  - when:
+      condition: <<parameters.use_cache>>
+      steps:
+        - restore_cache:
+            keys:
+              - cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
+              - cargo-{{ checksum "Cargo.lock" }}
+              - cargo-
   - run:
       name: Install Clippy
       command: rustup component add clippy
   - run:
       name: Run Clippy
       command: cargo clippy <<parameters.flags>>
+  - when:
+      condition: <<parameters.use_cache>>
+      steps:
+        - save_cache:
+            key: cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
+            paths:
+              - ~/.cargo

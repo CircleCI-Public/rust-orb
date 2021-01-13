@@ -1,6 +1,10 @@
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o rustup.sh
+chmod +x rustup.sh
+./rustup.sh -y
 
-if [ $RUST_VERSION != "latest" ]; then
-	rustup toolchain install $RUST_VERSION
-	rustup default $RUST_VERSION
+source "$HOME"/.cargo/env
+
+if [ "$RUST_VERSION" != "stable" ]; then
+	rustup toolchain install "$RUST_VERSION" -y
+	rustup default "$RUST_VERSION" -y
 fi

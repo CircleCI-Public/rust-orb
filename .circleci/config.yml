@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   rust: circleci/rust@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
-  bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
 
 parameters:
@@ -26,14 +25,21 @@ jobs:
     steps:
       - rust/install
 
-  integration-test_test-build-lint:
+  integration-test_test-lint-build:
     executor:
       name: rust/default
     steps:
       - checkout
+      - run:
+          name: Reorganize directory structure
+          command: mv sample ../sample; cd ..; rm -rf project; mv sample project
       - rust/test
-      - rust/clippy
-      - rust/build
+      - rust/clippy:
+          use_cache: false
+      - rust/build:
+          use_cache: false
+      - rust/cargo-run:
+          use_cache: false
 
 workflows:
   test-pack:
@@ -43,16 +49,13 @@ workflows:
       - orb-tools/pack # Pack orb source
       - shellcheck/check:
           dir: ./src/scripts
-          exclude: SC2148
-      - bats/run:
-          path: ./src/tests
+          exclude: SC2148,SC1090
       - orb-tools/publish-dev:
           orb-name: circleci/rust
           context: orb-publishing
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - bats/run
             - shellcheck/check
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger-integration-dev
@@ -64,7 +67,7 @@ workflows:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
       - integration-test_install
-      - integration-test_test-build-lint
+      - integration-test_test-lint-build
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: circleci/rust
           context: orb-publishing
@@ -76,6 +79,6 @@ workflows:
             - integration-test_test-lint-build
           filters:
             branches:
-              only: 
+              only:
                 - master
                 - main
