@@ -8,9 +8,9 @@ parameters:
     default: false 
 
 steps:
-  run: 
-    name: Install fmt
-    command: rustup component add rustfmt <<#parameters.nightly-toolchain>>--toolchain nightly<</parameters.nightly-toolchain>>
-  run: 
-    name: Run fmt
-    command: cargo <<#parameters.nightly-toolchain>>+nightly<</parameters.nightly-toolchain>> fmt
+  - run: 
+      name: Install fmt
+      command: rustup component add rustfmt <<#parameters.nightly-toolchain>>--toolchain nightly<</parameters.nightly-toolchain>>
+  - run: 
+      name: Run fmt
+      command: cargo <<#parameters.nightly-toolchain>>+nightly<</parameters.nightly-toolchain>> fmt
