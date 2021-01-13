@@ -1,0 +1,12 @@
+description: >
+  Test a cargo crate or package.
+
+parameters:
+  package:
+    description: Package to test.
+    default: ""
+    type: string
+
+steps:
+  - run:
+      command: cargo test <<parameters.package>>

@@ -1,0 +1,13 @@
+description: >
+ Build a Rust crate.
+
+parameters:
+  crate:
+    description: Directory of the create to build.
+    default: ""
+    type: string
+
+steps:
+  - run:
+      name: Cargo Build <<parameters.crate>>
+      command: cargo build <<parameters.crate>>

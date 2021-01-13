@@ -1,0 +1,12 @@
+description: >
+  Run a cargo package.
+
+parameters:
+  package:
+    description: Package to run.
+    default: ""
+    type: string
+
+steps:
+  - run:
+      command: cargo run <<parameters.package>>

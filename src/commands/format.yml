@@ -1,0 +1,16 @@
+description: >
+  Validate formatting of Rust project.
+
+parameters:
+  nightly-toolchain:
+    description: Whether or not to use the nightly toolchain version.
+    type: string
+    default: false 
+
+steps:
+  run: 
+    name: Install fmt
+    command: rustup component add rustfmt <<#parameters.nightly-toolchain>>--toolchain nightly<</parameters.nightly-toolchain>>
+  run: 
+    name: Run fmt
+    command: cargo <<#parameters.nightly-toolchain>>+nightly<</parameters.nightly-toolchain>> fmt

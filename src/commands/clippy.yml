@@ -1,0 +1,16 @@
+description: >
+ Run Clippy against your codebase. Learn more: https://github.com/rust-lang/rust-clippy.
+
+parameters:
+  flags:
+    description: Additional flags to pass along to Clippy.
+    default: "--all --all-targets"
+    type: string
+
+steps:
+  - run:
+      name: Install Clippy
+      command: rustup component add clippy
+  - run:
+      name: Run Clippy
+      command: cargo clippy <<parameters.flags>>
