@@ -29,13 +29,27 @@ executor:
 
 steps:
   - checkout
+  - when:
+      condition: <<parameters.use_cache>>
+      steps:
+        - restore_cache:
+            keys:
+              - cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
+              - cargo-{{ checksum "Cargo.lock" }}
+              - cargo-
+  # Cache is likely restored above, so we don't bother beyond that.
   - clippy:
       flags: <<parameters.clippy_arguments>>
-      use_cache: <<parameters.use_cache>>
-      cache_version: <<parameters.cache_version>>
-  # Cache is likely restored in clippy, so we don't have to do anything beyond.
+      use_cache: false
   - test:
       use_cache: false
   - build:
       release: <<parameters.release>>
       use_cache: false
+  - when:
+      condition: <<parameters.use_cache>>
+      steps:
+        - save_cache:
+            key: cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
+            paths:
+              - ~/.cargo
