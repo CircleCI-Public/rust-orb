@@ -9,5 +9,5 @@ usage:
   workflows:
     production:
       jobs:
-        rust/lint-test-build:
-          release: true
+        - rust/lint-test-build:
+            release: true

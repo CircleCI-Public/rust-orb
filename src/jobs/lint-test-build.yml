@@ -1,5 +1,5 @@
 description: >
-  Cheeck linting with Clippy, run any present tests then build the crate.
+  Check linting with Clippy, run any present tests then build the crate.
 
 parameters:
   use_cache:
