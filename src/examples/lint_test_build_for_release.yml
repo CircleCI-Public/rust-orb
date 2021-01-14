@@ -1,0 +1,13 @@
+description: Check linting with Clippy, run any present tests then build the crate.
+
+usage:
+  version: 2.1
+
+  orbs:
+    rust: circleci/rust@x.y.z
+
+  workflows:
+    production:
+      jobs:
+        rust/lint-test-build:
+          release: true

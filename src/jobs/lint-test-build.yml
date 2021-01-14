@@ -1,0 +1,37 @@
+description: >
+  Cheeck linting with Clippy, run any present tests then build the crate.
+
+parameters:
+  use_cache:
+    description: Whether to restore and save the cache or not - set to no if running multiple commands in one job.
+    type: boolean
+    default: true
+  cache_version:
+    description: Cache version to use - increment this to build a fresh cache.
+    type: string
+    default: "v1"
+  clippy_arguments:
+    description: Arguments to pass to cargo run clippy.
+    type: string
+    default: ""
+  release:
+    description: Whether to build the binary for release or debug.
+    type: boolean
+    default: false
+
+executor:
+  name: default
+  tag: << parameters.version >>
+
+steps:
+  - checkout
+  - clippy:
+      flags: <<parameters.clippy_arguments>>
+      use_cache: <<parameters.use_cache>>
+      cache_version: <<parameters.cache_version>>
+  # Cache is likely restored in clippy, so we don't have to do anything beyond.
+  - test:
+      use_cache: false
+  - build:
+      release: <<parameters.release>>
+      use_cache: false
