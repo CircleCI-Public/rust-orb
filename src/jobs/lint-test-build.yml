@@ -2,6 +2,10 @@ description: >
   Check linting with Clippy, run any present tests then build the crate.
 
 parameters:
+  version:
+    description: Version of Rust executor to utilize.
+    type: string
+    default: 1.49.0
   use_cache:
     description: Whether to restore and save the cache or not - set to no if running multiple commands in one job.
     type: boolean
