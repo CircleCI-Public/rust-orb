@@ -1,0 +1,40 @@
+description: >
+ Build a Rust crate.
+
+parameters:
+  crate:
+    description: Directory of the create to build.
+    default: ""
+    type: string
+  release:
+    description: Whether to build the binary for release or debug.
+    type: boolean
+    default: false
+  with_cache:
+    description: Whether to restore and save the cache or not - set to no if running multiple commands in one job.
+    type: boolean
+    default: true
+  cache_version:
+    description: Cache version to use - increment this to build a fresh cache.
+    type: string
+    default: "v1"
+
+steps:
+  - when:
+      condition: <<parameters.with_cache>>
+      steps:
+        - restore_cache:
+            keys:
+              - cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
+              - cargo-{{ checksum "Cargo.lock" }}
+              - cargo-
+  - run:
+      name: Cargo Build <<parameters.crate>>
+      command: cargo build <<parameters.crate>> <<#parameters.release>>--release<</parameters.release>>
+  - when:
+      condition: <<parameters.with_cache>>
+      steps:
+        - save_cache:
+            key: cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
+            paths:
+              - ~/.cargo

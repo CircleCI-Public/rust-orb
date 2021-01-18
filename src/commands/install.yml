@@ -1,0 +1,16 @@
+description: >
+ Install Rustup, Cargo and Rust. Note: it is best practice to levearge a Docker
+ image with Rust preinstalled for reproducibility and speed.
+
+parameters:
+  version:
+    description: Version of Rust to install and default to.
+    default: "stable"
+    type: string
+
+steps:
+  - run:
+      name: Install Rustup
+      command: <<include(scripts/install.sh)>>
+      environment:
+        RUST_VERSION: <<parameters.version>>
