@@ -6,7 +6,7 @@ parameters:
     description: Package to run.
     default: ""
     type: string
-  use_cache:
+  with_cache:
     description: Whether to restore and save the cache or not - set to no if running multiple commands in one job.
     type: boolean
     default: true
@@ -17,7 +17,7 @@ parameters:
 
 steps:
   - when:
-      condition: <<parameters.use_cache>>
+      condition: <<parameters.with_cache>>
       steps:
         - restore_cache:
             keys:
@@ -27,7 +27,7 @@ steps:
   - run:
       command: cargo run <<parameters.package>>
   - when:
-      condition: <<parameters.use_cache>>
+      condition: <<parameters.with_cache>>
       steps:
         - save_cache:
             key: cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>

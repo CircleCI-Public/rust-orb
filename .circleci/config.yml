@@ -35,11 +35,11 @@ jobs:
           command: mv sample ../sample; cd ..; rm -rf project; mv sample project
       - rust/test
       - rust/clippy:
-          use_cache: false
+          with_cache: false
       - rust/build:
-          use_cache: false
+          with_cache: false
       - rust/cargo-run:
-          use_cache: false
+          with_cache: false
 
 workflows:
   test-pack:
