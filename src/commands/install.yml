@@ -14,3 +14,6 @@ steps:
       command: <<include(scripts/install.sh)>>
       environment:
         RUST_VERSION: <<parameters.version>>
+  - run:
+      name: Setting up Cargo environment in \$BASH_ENV
+      run: echo 'source $HOME/.cargo/env' >> $BASH_ENV
