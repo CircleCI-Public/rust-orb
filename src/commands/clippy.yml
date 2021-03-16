@@ -14,6 +14,10 @@ parameters:
     description: Cache version to use - increment this to build a fresh cache.
     type: string
     default: "v1"
+  working_directory:
+    type: string
+    default: "~/project"
+    description: Path to the directory containing your Cargo.lock file. Not needed if Cargo.lock lives in the root.
 
 steps:
   - when:
@@ -30,6 +34,7 @@ steps:
   - run:
       name: Run Clippy
       command: cargo clippy <<parameters.flags>>
+      working_directory: <<parameters.working_directory>>
   - when:
       condition: <<parameters.with_cache>>
       steps:

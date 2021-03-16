@@ -22,6 +22,10 @@ parameters:
     description: Whether to build the binary for release or debug.
     type: boolean
     default: false
+  working_directory:
+    type: string
+    default: "~/project"
+    description: Path to the directory containing your Cargo.lock file. Not needed if Cargo.lock lives in the root.
 
 executor:
   name: default
@@ -41,11 +45,14 @@ steps:
   - clippy:
       flags: <<parameters.clippy_arguments>>
       with_cache: false
+      working_directory: <<parameters.working_directory>>
   - test:
       with_cache: false
+      working_directory: <<parameters.working_directory>>
   - build:
       release: <<parameters.release>>
       with_cache: false
+      working_directory: <<parameters.working_directory>>
   - when:
       condition: <<parameters.with_cache>>
       steps:
