@@ -16,4 +16,4 @@ steps:
         RUST_VERSION: <<parameters.version>>
   - run:
       name: Setting up Cargo environment in \$BASH_ENV
-      run: echo 'source $HOME/.cargo/env' >> $BASH_ENV
+      command: echo 'source $HOME/.cargo/env' >> $BASH_ENV
