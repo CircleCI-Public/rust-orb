@@ -1,5 +1,5 @@
 description: >
- Install Rustup, Cargo and Rust. Note: it is best practice to levearge a Docker
+ Install Rustup, Cargo and Rust. Note: it is best practice to leverage a Docker
  image with Rust preinstalled for reproducibility and speed.
 
 parameters:
