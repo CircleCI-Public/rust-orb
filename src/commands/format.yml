@@ -33,7 +33,7 @@ steps:
       command: rustup component add rustfmt <<#parameters.nightly-toolchain>>--toolchain nightly<</parameters.nightly-toolchain>>
   - run:
       name: Run fmt
-      command: cargo <<#parameters.nightly-toolchain>>+nightly<</parameters.nightly-toolchain>> fmt
+      command: cargo <<#parameters.nightly-toolchain>>+nightly<</parameters.nightly-toolchain>> fmt -- --check
       working_directory: <<parameters.working_directory>>
   - when:
       condition: <<parameters.with_cache>>
