@@ -29,9 +29,7 @@ steps:
       steps:
         - restore_cache:
             keys:
-              - cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
-              - cargo-{{ checksum "Cargo.lock" }}
-              - cargo-
+              - cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
   - run:
       name: Cargo Build <<parameters.crate>>
       command: cargo build <<parameters.crate>> <<#parameters.release>>--release<</parameters.release>>
@@ -40,6 +38,6 @@ steps:
       condition: <<parameters.with_cache>>
       steps:
         - save_cache:
-            key: cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
+            key: cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
             paths:
               - ~/.cargo
