@@ -31,8 +31,11 @@ executor:
   name: default
   tag: << parameters.version >>
 
+working_directory: <<parameters.working_directory>>
+
 steps:
-  - checkout
+  - checkout:
+      path: /home/circleci/project
   - when:
       condition: <<parameters.with_cache>>
       steps:

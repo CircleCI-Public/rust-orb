@@ -68,6 +68,8 @@ workflows:
     jobs:
       - integration-test_install
       - integration-test_test-lint-build
+      - rust/lint-test-build:
+          working_directory: /home/circleci/project/sample
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: circleci/rust
           context: orb-publishing
@@ -77,6 +79,7 @@ workflows:
           requires:
             - integration-test_install
             - integration-test_test-lint-build
+            - rust/lint-test-build
           filters:
             branches:
               only:
