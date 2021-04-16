@@ -2,7 +2,7 @@
 
 [![CircleCI Build Status](https://circleci.com/gh/CircleCI-Public/rust-orb.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/CircleCI-Public/rust-orb) [![CircleCI Orb Version](https://badges.circleci.com/orbs/circleci/rust.svg)](https://circleci.com/orbs/registry/orb/circleci/rust) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/CircleCI-Public/rust-orb/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
 
-Easily test, build and run your Rust orbs on CircleCI.
+Easily test, build and run your Rust projects on CircleCI.
 
 ## Resources
 
