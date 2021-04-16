@@ -41,9 +41,7 @@ steps:
       steps:
         - restore_cache:
             keys:
-              - cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
-              - cargo-{{ checksum "Cargo.lock" }}
-              - cargo-
+              - cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
   # Cache is likely restored above, so we don't bother beyond that.
   - clippy:
       flags: <<parameters.clippy_arguments>>
@@ -60,6 +58,6 @@ steps:
       condition: <<parameters.with_cache>>
       steps:
         - save_cache:
-            key: cargo-{{ checksum "Cargo.lock" }}-<<parameters.cache_version>>
+            key: cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
             paths:
               - ~/.cargo

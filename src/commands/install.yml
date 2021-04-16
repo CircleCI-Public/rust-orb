@@ -1,5 +1,5 @@
 description: >
- Install Rustup, Cargo and Rust. Note: it is best practice to levearge a Docker
+ Install Rustup, Cargo and Rust. Note: it is best practice to leverage a Docker
  image with Rust preinstalled for reproducibility and speed.
 
 parameters:
@@ -14,3 +14,6 @@ steps:
       command: <<include(scripts/install.sh)>>
       environment:
         RUST_VERSION: <<parameters.version>>
+  - run:
+      name: Setting up Cargo environment in $BASH_ENV
+      command: echo 'source $HOME/.cargo/env' >> $BASH_ENV
