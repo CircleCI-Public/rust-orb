@@ -4,7 +4,7 @@ description: >
 parameters:
   flags:
     description: Additional flags to pass along to Clippy.
-    default: "--all --all-targets"
+    default: "--all --all-targets -- --deny warnings"
     type: string
   with_cache:
     description: Whether to restore and save the cache or not - set to no if running multiple commands in one job.
