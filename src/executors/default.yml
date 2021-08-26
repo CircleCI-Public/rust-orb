@@ -5,7 +5,7 @@ parameters:
   tag:
     description: Tag of the Rust image to use.
     type: string
-    default: 1.49.0
+    default: 1.56.0
 
 docker:
   - image: cimg/rust:<<parameters.tag>>
