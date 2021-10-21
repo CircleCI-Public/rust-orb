@@ -5,6 +5,6 @@ chmod +x rustup.sh
 source "$HOME"/.cargo/env
 
 if [ "$RUST_VERSION" != "stable" ]; then
-	rustup toolchain install "$RUST_VERSION" -y
-	rustup default "$RUST_VERSION" -y
+	rustup toolchain install "$RUST_VERSION"
+	rustup default "$RUST_VERSION"
 fi
