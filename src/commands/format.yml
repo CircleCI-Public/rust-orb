@@ -28,7 +28,7 @@ steps:
               - cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
   - run:
       name: Install and Run fmt
-      environment: 
+      environment:
         ORB_VAL_NIGHTLY_TOOLCHAIN: <<parameters.nightly-toolchain>>
       command: <<include(scripts/format.sh)>>
   - when:
