@@ -1,0 +1,59 @@
+version: 2.1
+orbs:
+  rust: circleci/rust@dev:<<pipeline.git.revision>>
+  orb-tools: circleci/orb-tools@11.1
+
+filters: &filters
+  tags:
+    only: /.*/
+
+jobs:
+  integration-test_install:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - rust/install
+  integration-test_test-lint-build:
+    executor:
+      name: rust/default
+    steps:
+      - checkout
+      - run:
+          name: Reorganize directory structure
+          command: mv sample ../sample; cd ..; rm -rf project; mv sample project
+      - rust/test
+      - rust/clippy:
+          with_cache: false
+      - rust/build:
+          with_cache: false
+      - rust/cargo-run:
+          with_cache: false
+
+workflows:
+  test-deploy:
+    jobs:
+      # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
+      - integration-test_install:
+          filters: *filters
+      - integration-test_test-lint-build:
+          filters: *filters
+      - rust/lint-test-build:
+          working_directory: /home/circleci/project/sample
+          filters: *filters
+      - orb-tools/pack:
+          filters: *filters
+      - orb-tools/publish:
+          orb-name: circleci/rust
+          vcs-type: << pipeline.project.type >>
+          pub-type: production
+          requires:
+            - orb-tools/pack
+            - integration-test_install
+            - integration-test_test-lint-build
+            - rust/lint-test-build
+          context: orb-publisher
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
