@@ -1,7 +1,7 @@
 version: 2.1
 
 description: >
-  Easily test, build and run your Rust applications on CircleCI!
+  Easily test, build, run and validate your Rust applications on CircleCI!
 
 display:
   home_url: https://www.rust-lang.org

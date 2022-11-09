@@ -27,12 +27,10 @@ steps:
             keys:
               - cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
   - run:
-      name: Install fmt
-      command: rustup component add rustfmt <<#parameters.nightly-toolchain>>--toolchain nightly<</parameters.nightly-toolchain>>
-  - run:
-      name: Run fmt
-      command: cargo <<#parameters.nightly-toolchain>>+nightly<</parameters.nightly-toolchain>> fmt -- --check
-      working_directory: <<parameters.working_directory>>
+      name: Install and Run fmt
+      environment:
+        ORB_VAL_NIGHTLY_TOOLCHAIN: <<parameters.nightly-toolchain>>
+      command: <<include(scripts/format.sh)>>
   - when:
       condition: <<parameters.with_cache>>
       steps:
