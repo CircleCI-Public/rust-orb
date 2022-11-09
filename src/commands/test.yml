@@ -27,6 +27,7 @@ steps:
             keys:
               - cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
   - run:
+      name: Cargo Test <<parameters.package>>
       command: cargo test <<parameters.package>>
       working_directory: <<parameters.working_directory>>
   - when:

@@ -32,7 +32,10 @@ steps:
               - cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
   - run:
       name: Cargo Build <<parameters.crate>>
-      command: cargo build <<parameters.crate>> <<#parameters.release>>--release<</parameters.release>>
+      environment:
+        ORB_VAL_CRATE_DIR: <<parameters.crate>>
+        ORB_VAL_RELEASE: <<parameters.release>>
+      command: <<include(scripts/build.sh)>>
       working_directory: <<parameters.working_directory>>
   - when:
       condition: <<parameters.with_cache>>
