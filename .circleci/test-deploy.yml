@@ -1,11 +1,17 @@
 version: 2.1
 orbs:
-  rust: circleci/rust@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.5
+  rust: {}
+  orb-tools: circleci/orb-tools@12.0
 
 filters: &filters
   tags:
     only: /.*/
+
+release-filters: &release-filters
+  branches:
+    ignore: /.*/
+  tags:
+    only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
 jobs:
   integration-test_install:
@@ -41,19 +47,17 @@ workflows:
           working_directory: /home/circleci/project/sample
           filters: *filters
       - orb-tools/pack:
-          filters: *filters
+          filters: *release-filters
       - orb-tools/publish:
-          orb-name: circleci/rust
-          vcs-type: << pipeline.project.type >>
-          pub-type: production
+          orb_name: circleci/rust
+          vcs_type: << pipeline.project.type >>
+          pub_type: production
+          enable_pr_comment: true
+          github_token: GHI_TOKEN
           requires:
             - orb-tools/pack
             - integration-test_install
             - integration-test_test-lint-build
             - rust/lint-test-build
           context: orb-publisher
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+          filters: *release-filters
