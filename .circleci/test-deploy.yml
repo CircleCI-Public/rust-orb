@@ -22,8 +22,10 @@ jobs:
   integration-test_test-lint-build:
     parameters:
       nightly-toolchain:
+        default: false
         type: boolean
       with_cache:
+        default: false
         type: boolean
     executor:
       name: rust/default
@@ -50,7 +52,10 @@ workflows:
       - integration-test_install:
           filters: *filters
       - integration-test_test-lint-build:
-          name: integration-test_test-lint-build|
+          name: integration-test_test-lint-build
+          filters: *filters
+      - integration-test_test-lint-build:
+          name: integration-lint-build-cache-<<matrix.with_cache>>-toolchain-<<matrix.nightly-toolchain>>
           matrix:
             alias: integration-test_test-lint-build
             parameters:
