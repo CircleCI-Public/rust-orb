@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   rust: {}
-  orb-tools: circleci/orb-tools@12.0
+  orb-tools: circleci/orb-tools@12.3
 
 filters: &filters
   tags:
@@ -20,6 +20,11 @@ jobs:
     steps:
       - rust/install
   integration-test_test-lint-build:
+    parameters:
+      nightly-toolchain:
+        type: boolean
+      with_cache:
+        type: boolean
     executor:
       name: rust/default
     steps:
@@ -27,13 +32,16 @@ jobs:
       - run:
           name: Reorganize directory structure
           command: mv sample ../sample; cd ..; rm -rf project; mv sample project
+      - rust/format:
+          with_cache: <<parameters.with_cache>>
+          nightly-toolchain: <<parameters.nightly-toolchain>>
       - rust/test
       - rust/clippy:
-          with_cache: false
+          with_cache: <<parameters.with_cache>>
       - rust/build:
-          with_cache: false
+          with_cache: <<parameters.with_cache>>
       - rust/cargo-run:
-          with_cache: false
+          with_cache: <<parameters.with_cache>>
 
 workflows:
   test-deploy:
@@ -42,6 +50,12 @@ workflows:
       - integration-test_install:
           filters: *filters
       - integration-test_test-lint-build:
+          name: integration-lint-build-cache-<<matrix.with_cache>>-toolchain-<<matrix.nightly-toolchain>>
+          matrix:
+            alias: integration-test_test-lint-build
+            parameters:
+              with_cache: [true, false]
+              nightly-toolchain: [true, false]
           filters: *filters
       - rust/lint-test-build:
           working_directory: /home/circleci/project/sample
