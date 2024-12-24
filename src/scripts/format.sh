@@ -3,7 +3,7 @@
 rustup_args=()
 cargo_args=()
 
-if [ "$ORB_VAL_NIGHTLY_TOOLCHAIN" ]; then
+if [ "$ORB_VAL_NIGHTLY_TOOLCHAIN" = "true" ]; then
     rustup_args+=(--toolchain nightly)
     cargo_args+=(+nightly)
 fi
