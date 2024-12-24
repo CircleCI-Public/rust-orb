@@ -31,19 +31,24 @@ jobs:
       name: rust/default
     steps:
       - checkout
-      - run:
-          name: Reorganize directory structure
-          command: mv sample ../sample; cd ..; rm -rf project; mv sample project
+      # - run:
+      #     name: Reorganize directory structure
+      #     command: mv sample ../sample; cd ..; rm -rf project; mv sample project
       - rust/format:
           with_cache: <<parameters.with_cache>>
           nightly-toolchain: <<parameters.nightly-toolchain>>
-      - rust/test
+          working_directory: sample
+      - rust/test:
+          working_directory: sample
       - rust/clippy:
           with_cache: <<parameters.with_cache>>
+          working_directory: sample
       - rust/build:
           with_cache: <<parameters.with_cache>>
+          working_directory: sample
       - rust/cargo-run:
           with_cache: <<parameters.with_cache>>
+          working_directory: sample
 
 workflows:
   test-deploy:
