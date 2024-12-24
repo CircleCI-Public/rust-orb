@@ -52,7 +52,6 @@ workflows:
       - integration-test_install:
           filters: *filters
       - integration-test_test-lint-build:
-          name: integration-test_test-lint-build
           filters: *filters
       - integration-test_test-lint-build:
           name: integration-lint-build-cache-<<matrix.with_cache>>-toolchain-<<matrix.nightly-toolchain>>
@@ -76,7 +75,7 @@ workflows:
           requires:
             - orb-tools/pack
             - integration-test_install
-            - integration-test_test-lint-build
+            - integration-test-matrix
             - rust/lint-test-build
           context: orb-publisher
           filters: *release-filters
