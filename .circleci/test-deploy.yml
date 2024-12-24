@@ -56,7 +56,7 @@ workflows:
       - integration-test_test-lint-build:
           name: integration-lint-build-cache-<<matrix.with_cache>>-toolchain-<<matrix.nightly-toolchain>>
           matrix: 
-            name: integration-test-matrix
+            alias: integration-test-matrix
             parameters:
               with_cache: [true, false]
               nightly-toolchain: [true, false]
