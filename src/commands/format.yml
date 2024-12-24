@@ -31,6 +31,7 @@ steps:
       environment:
         ORB_VAL_NIGHTLY_TOOLCHAIN: <<parameters.nightly-toolchain>>
       command: <<include(scripts/format.sh)>>
+      working_directory: <<parameters.working_directory>>
   - when:
       condition: <<parameters.with_cache>>
       steps:
