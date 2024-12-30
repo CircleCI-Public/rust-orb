@@ -25,16 +25,17 @@ steps:
       steps:
         - restore_cache:
             keys:
-              - cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
+              - cargo-<<parameters.cache_version>>-{{ checksum "<<parameters.working_directory>>/Cargo.lock" }}
   - run:
       name: Install and Run fmt
       environment:
         ORB_VAL_NIGHTLY_TOOLCHAIN: <<parameters.nightly-toolchain>>
       command: <<include(scripts/format.sh)>>
+      working_directory: <<parameters.working_directory>>
   - when:
       condition: <<parameters.with_cache>>
       steps:
         - save_cache:
-            key: cargo-<<parameters.cache_version>>-{{ checksum "Cargo.lock" }}
+            key: cargo-<<parameters.cache_version>>-{{ checksum "<<parameters.working_directory>>/Cargo.lock" }}
             paths:
               - ~/.cargo
