@@ -26,6 +26,9 @@ steps:
         - restore_cache:
             keys:
               - cargo-<<parameters.cache_version>>-{{ checksum "<<parameters.working_directory>>/Cargo.lock" }}
+        - run:
+            name: Process cache restore
+            command: <<include(scripts/restore_cache.sh)>>
   - run:
       name: Install Clippy
       command: rustup component add clippy
@@ -36,7 +39,10 @@ steps:
   - when:
       condition: <<parameters.with_cache>>
       steps:
+        - run:
+            name: Process cache save
+            command: <<include(scripts/save_cache.sh)>>
         - save_cache:
             key: cargo-<<parameters.cache_version>>-{{ checksum "<<parameters.working_directory>>/Cargo.lock" }}
             paths:
-              - ~/.cargo
+              - /tmp/cargo_tmp/
