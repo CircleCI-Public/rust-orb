@@ -10,5 +10,5 @@ fi
 if [ -n "$CARGO_HOME" ]; then
     cp -r /tmp/cargo_tmp/.cargo "$(dirname "$CARGO_HOME")/.cargo"
 else
-    cp -r /tmp/cargo_tmp/.cargo "~/.cargo"
+    cp -r /tmp/cargo_tmp/.cargo ~/.cargo
 fi
