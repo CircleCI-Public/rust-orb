@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -x
 if [ -d "/tmp/cargo_tmp" ]; then
     echo "Cache directory found"
 else
@@ -14,3 +14,4 @@ else
     rm -r ~/.cargo
     cp -r /tmp/cargo_tmp/.cargo ~/.cargo
 fi
+set +x
