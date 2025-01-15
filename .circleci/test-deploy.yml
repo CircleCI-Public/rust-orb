@@ -19,6 +19,16 @@ jobs:
       - image: cimg/base:stable
     steps:
       - rust/install
+  test-build-with-timing:
+    executor:
+      name: rust/default
+      tag: 1.84.0
+    steps:
+      - checkout
+      - rust/build:
+          with_cache: true
+          working_directory: sample
+          cache_version: timing-v1
   integration-test_test-lint-build:
     parameters:
       nightly-toolchain:
@@ -35,27 +45,22 @@ jobs:
       # - run:
       #     name: Reorganize directory structure
       #     command: mv sample ../sample; cd ..; rm -rf project; mv sample project
-      - run: cargo --version
+      - test-build-with-timing
       - rust/format:
-          with_cache: false
           nightly-toolchain: <<parameters.nightly-toolchain>>
           working_directory: sample
       - rust/test:
           working_directory: sample
           with_cache: <<parameters.with_cache>>
-          cache_version: v5
       - rust/clippy:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
-          cache_version: v6
       - rust/build:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
-          cache_version: v7
       - rust/cargo-run:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
-          cache_version: v8
 
 workflows:
   test-deploy:
