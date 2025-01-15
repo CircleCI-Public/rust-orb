@@ -35,6 +35,7 @@ jobs:
       # - run:
       #     name: Reorganize directory structure
       #     command: mv sample ../sample; cd ..; rm -rf project; mv sample project
+      - run: cargo --version
       - rust/format:
           with_cache: <<parameters.with_cache>>
           nightly-toolchain: <<parameters.nightly-toolchain>>
