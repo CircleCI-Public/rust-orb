@@ -27,14 +27,18 @@ steps:
   - when:
       condition: <<parameters.with_cache>>
       steps:
-        - run: ls -la ~/.cargo
+        - run:
+            name: ls -la ~/.cargo
+            command: ls -la ~/.cargo
         - restore_cache:
             keys:
               - cargo-<<parameters.cache_version>>-{{ checksum "<<parameters.working_directory>>/Cargo.lock" }}
         - run:
             name: Process cache restore
             command: <<include(scripts/restore_cache.sh)>>
-        - run: ls -la ~/.cargo
+        - run:
+            name: ls -la ~/.cargo
+            command: ls -la ~/.cargo
   - run:
       name: Cargo Build <<parameters.crate>>
       environment:
