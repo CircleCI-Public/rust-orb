@@ -77,6 +77,7 @@ workflows:
       - rust/lint-test-build:
           working_directory: /home/circleci/project/sample
           filters: *filters
+          version: 1.84.0
       - orb-tools/pack:
           filters: *release-filters
       - orb-tools/publish:
