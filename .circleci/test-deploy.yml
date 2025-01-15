@@ -45,7 +45,6 @@ jobs:
       # - run:
       #     name: Reorganize directory structure
       #     command: mv sample ../sample; cd ..; rm -rf project; mv sample project
-      - test-build-with-timing
       - rust/format:
           nightly-toolchain: <<parameters.nightly-toolchain>>
           working_directory: sample
@@ -66,6 +65,8 @@ workflows:
   test-deploy:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
+      - test-build-with-timing:
+          filters: *filters
       - integration-test_install:
           filters: *filters
       - integration-test_test-lint-build:
@@ -93,6 +94,7 @@ workflows:
           requires:
             - orb-tools/pack
             - integration-test_install
+            - test-build-with-timing
             - integration-test-matrix
             - rust/lint-test-build
           context: orb-publisher
