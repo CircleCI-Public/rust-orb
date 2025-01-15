@@ -29,6 +29,9 @@ jobs:
           with_cache: true
           working_directory: sample
           cache_version: timing-v1
+      - run: |
+          cd sample
+          cargo build -vv
   integration-test_test-lint-build:
     parameters:
       nightly-toolchain:
