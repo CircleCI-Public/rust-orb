@@ -28,7 +28,7 @@ jobs:
       - rust/build:
           with_cache: true
           working_directory: sample
-          cache_version: timing-v1
+          cache_version: timing-v2
       - run: |
           cd sample
           cargo build -vv
