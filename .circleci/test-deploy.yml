@@ -39,17 +39,21 @@ jobs:
           with_cache: <<parameters.with_cache>>
           nightly-toolchain: <<parameters.nightly-toolchain>>
           working_directory: sample
+          cache_version: v11
       - rust/test:
           cache_version: v11
           working_directory: sample
           with_cache: <<parameters.with_cache>>
       - rust/clippy:
+          cache_version: v11
           with_cache: <<parameters.with_cache>>
           working_directory: sample
       - rust/build:
+          cache_version: v11
           with_cache: <<parameters.with_cache>>
           working_directory: sample
       - rust/cargo-run:
+          cache_version: v11
           with_cache: <<parameters.with_cache>>
           working_directory: sample
 
