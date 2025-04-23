@@ -40,6 +40,7 @@ jobs:
           nightly-toolchain: <<parameters.nightly-toolchain>>
           working_directory: sample
       - rust/test:
+          cache_version: v11
           working_directory: sample
           with_cache: <<parameters.with_cache>>
       - rust/clippy:
