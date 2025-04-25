@@ -32,7 +32,7 @@ steps:
         #     command: ls -la ~/.cargo
         - restore_cache:
             keys:
-              - bcargo-<<parameters.cache_version>>-{{ checksum "<<parameters.working_directory>>/Cargo.lock" }}
+              - cargo-<<parameters.cache_version>>-{{ checksum "<<parameters.working_directory>>/Cargo.lock" }}
         # - run:
         #     name: Process cache restore
         #     command: <<include(scripts/restore_cache.sh)>>
