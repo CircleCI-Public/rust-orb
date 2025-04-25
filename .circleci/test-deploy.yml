@@ -28,7 +28,7 @@ jobs:
       - rust/build:
           with_cache: true
           working_directory: sample
-          cache_version: timing-v3
+          cache_version: timing-v4
       - run: |
           cd sample
           cargo build -vv
@@ -51,23 +51,23 @@ jobs:
       - rust/format:
           nightly-toolchain: <<parameters.nightly-toolchain>>
           working_directory: sample
-          cache_version: timing-v3
+          cache_version: timing-v4
       - rust/test:
           working_directory: sample
           with_cache: <<parameters.with_cache>>
-          cache_version: timing-v3
+          cache_version: timing-v4
       - rust/clippy:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
-          cache_version: timing-v3
+          cache_version: timing-v4
       - rust/build:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
-          cache_version: timing-v3
+          cache_version: timing-v4
       - rust/cargo-run:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
-          cache_version: timing-v3
+          cache_version: timing-v4
 
 workflows:
   test-deploy:
