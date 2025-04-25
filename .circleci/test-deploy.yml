@@ -91,19 +91,19 @@ workflows:
       #     working_directory: /home/circleci/project/sample
       #     filters: *filters
       #     version: 1.84.0
-      - orb-tools/pack:
-          filters: *release-filters
-      - orb-tools/publish:
-          orb_name: circleci/rust
-          vcs_type: << pipeline.project.type >>
-          pub_type: production
-          enable_pr_comment: true
-          github_token: GHI_TOKEN
-          requires:
-            - orb-tools/pack
-            - integration-test_install
-            - test-build-with-timing
-            - integration-test-matrix
-            - rust/lint-test-build
-          context: orb-publisher
-          filters: *release-filters
+      # - orb-tools/pack:
+      #     filters: *release-filters
+      # - orb-tools/publish:
+      #     orb_name: circleci/rust
+      #     vcs_type: << pipeline.project.type >>
+      #     pub_type: production
+      #     enable_pr_comment: true
+      #     github_token: GHI_TOKEN
+      #     requires:
+      #       - orb-tools/pack
+      #       - integration-test_install
+      #       - test-build-with-timing
+      #       - integration-test-matrix
+      #       - rust/lint-test-build
+      #     context: orb-publisher
+      #     filters: *release-filters
