@@ -53,7 +53,6 @@ steps:
         #     name: Process cache save
         #     command: <<include(scripts/save_cache.sh)>>
         - save_cache:
-            key: bcargo-<<parameters.cache_version>>-{{ checksum "<<parameters.working_directory>>/Cargo.lock" }}
+            key: cargo-<<parameters.cache_version>>-{{ checksum "<<parameters.working_directory>>/Cargo.lock" }}
             paths:
-              - ~/.cargo/release
-              - ~/.cargo/git
+              - ~/.cargo/
