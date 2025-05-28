@@ -75,35 +75,35 @@ workflows:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       - test-build-with-timing:
           filters: *filters
-      # - integration-test_install:
-      #     filters: *filters
-      # - integration-test_test-lint-build:
-      #     filters: *filters
-      # - integration-test_test-lint-build:
-      #     name: integration-lint-build-cache-<<matrix.with_cache>>-toolchain-<<matrix.nightly-toolchain>>
-      #     matrix: 
-      #       alias: integration-test-matrix
-      #       parameters:
-      #         with_cache: [true, false]
-      #         nightly-toolchain: [true, false]
-      #     filters: *filters
-      # - rust/lint-test-build:
-      #     working_directory: /home/circleci/project/sample
-      #     filters: *filters
-      #     version: 1.84.0
-      # - orb-tools/pack:
-      #     filters: *release-filters
-      # - orb-tools/publish:
-      #     orb_name: circleci/rust
-      #     vcs_type: << pipeline.project.type >>
-      #     pub_type: production
-      #     enable_pr_comment: true
-      #     github_token: GHI_TOKEN
-      #     requires:
-      #       - orb-tools/pack
-      #       - integration-test_install
-      #       - test-build-with-timing
-      #       - integration-test-matrix
-      #       - rust/lint-test-build
-      #     context: orb-publisher
-      #     filters: *release-filters
+      - integration-test_install:
+          filters: *filters
+      - integration-test_test-lint-build:
+          filters: *filters
+      - integration-test_test-lint-build:
+          name: integration-lint-build-cache-<<matrix.with_cache>>-toolchain-<<matrix.nightly-toolchain>>
+          matrix: 
+            alias: integration-test-matrix
+            parameters:
+              with_cache: [true, false]
+              nightly-toolchain: [true, false]
+          filters: *filters
+      - rust/lint-test-build:
+          working_directory: /home/circleci/project/sample
+          filters: *filters
+          version: 1.84.0
+      - orb-tools/pack:
+          filters: *release-filters
+      - orb-tools/publish:
+          orb_name: circleci/rust
+          vcs_type: << pipeline.project.type >>
+          pub_type: production
+          enable_pr_comment: true
+          github_token: GHI_TOKEN
+          requires:
+            - orb-tools/pack
+            - integration-test_install
+            - test-build-with-timing
+            - integration-test-matrix
+            - rust/lint-test-build
+          context: orb-publisher
+          filters: *release-filters
