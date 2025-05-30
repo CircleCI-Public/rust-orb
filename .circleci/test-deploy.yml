@@ -19,6 +19,19 @@ jobs:
       - image: cimg/base:stable
     steps:
       - rust/install
+  test-build-with-timing:
+    executor:
+      name: rust/default
+      tag: 1.84.0
+    steps:
+      - checkout
+      - rust/build:
+          with_cache: true
+          working_directory: sample
+          cache_version: timing-v6
+      - run: |
+          cd sample
+          cargo build -vv
   integration-test_test-lint-build:
     parameters:
       nightly-toolchain:
@@ -29,32 +42,39 @@ jobs:
         type: boolean
     executor:
       name: rust/default
+      tag: 1.84.0
     steps:
       - checkout
       # - run:
       #     name: Reorganize directory structure
       #     command: mv sample ../sample; cd ..; rm -rf project; mv sample project
       - rust/format:
-          with_cache: <<parameters.with_cache>>
           nightly-toolchain: <<parameters.nightly-toolchain>>
           working_directory: sample
+          cache_version: timing-v6
       - rust/test:
           working_directory: sample
           with_cache: <<parameters.with_cache>>
+          cache_version: timing-v6
       - rust/clippy:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
+          cache_version: timing-v6
       - rust/build:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
+          cache_version: timing-v6
       - rust/cargo-run:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
+          cache_version: timing-v6
 
 workflows:
   test-deploy:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
+      - test-build-with-timing:
+          filters: *filters
       - integration-test_install:
           filters: *filters
       - integration-test_test-lint-build:
@@ -70,6 +90,7 @@ workflows:
       - rust/lint-test-build:
           working_directory: /home/circleci/project/sample
           filters: *filters
+          version: 1.84.0
       - orb-tools/pack:
           filters: *release-filters
       - orb-tools/publish:
@@ -81,6 +102,7 @@ workflows:
           requires:
             - orb-tools/pack
             - integration-test_install
+            - test-build-with-timing
             - integration-test-matrix
             - rust/lint-test-build
           context: orb-publisher
