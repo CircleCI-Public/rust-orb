@@ -22,7 +22,10 @@ parameters:
     type: string
     default: "~/project"
     description: Path to the directory containing your Cargo.lock file. Not needed if Cargo.lock lives in the root.
-
+  verbose:
+    type: boolean
+    default: false
+    description: When true does a verbose build, i.e. -vv
 steps:
   - when:
       condition: <<parameters.with_cache>>
@@ -38,6 +41,7 @@ steps:
       environment:
         ORB_VAL_CRATE_DIR: <<parameters.crate>>
         ORB_VAL_RELEASE: <<parameters.release>>
+        ORB_VAL_VERBOSE: <<parameters.verbose>>
       command: <<include(scripts/build.sh)>>
       working_directory: <<parameters.working_directory>>
   - when:

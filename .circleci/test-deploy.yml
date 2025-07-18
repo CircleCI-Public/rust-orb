@@ -29,6 +29,7 @@ jobs:
           with_cache: true
           working_directory: sample
           cache_version: timing-v6
+          verbose: true
       - run: |
           cd sample
           cargo build -vv
@@ -64,6 +65,7 @@ jobs:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
           cache_version: timing-v6
+          verbose: true
       - rust/cargo-run:
           with_cache: <<parameters.with_cache>>
           working_directory: sample
